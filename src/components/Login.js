@@ -6,7 +6,8 @@ const portal = window.location.hostname === 'localhost' ? 'https://siasky.net' :
 const client = new SkynetClient(portal);
 
 function Login() {
-
+  
+    //STATES FOR MYSKY AND LOGGEDIN
     const [mySky, setMySky] = useState();
     const [loggedIn, setLoggedIn] = useState(null);
 
@@ -18,6 +19,7 @@ function Login() {
 
     useEffect(() => {
 
+        // INITIALISE MYSKY
         const initMySky = async () => {
           try {
             const mySky = await client.loadMySky(dataDomain);
@@ -28,7 +30,8 @@ function Login() {
             console.error.apply(e);
           }
         };
-    
+        
+        //IF USER SUCCESSFULLY LOGGED IN REDIRECT TO MYLIST PAGE
         if(loggedIn)
         {
           window.location.href = '/#/mylist';

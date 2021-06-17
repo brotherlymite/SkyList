@@ -10,14 +10,17 @@ const client = new SkynetClient(portal);
 
 function MyList() {
 
+    //STATES FOR MYSKY, TODO LIST AND INPUT FROM USER
     const [mySky, setMySky] = useState();
     const [list, setList] = useState([]);
     const [input, setInput] = useState('');
 
+    //STORE THE INPUT FROM THE USER ON CHANGE
     const handleChange = e => {
       setInput(e.target.value);
     };
 
+    //FETCH JSON DATA WHICH STORES THE TODO LIST ITEMS
     const getData = async() => {
         const { data } = await mySky.getJSON(dataDomain + "/" + dataKey);
         setList(data);
@@ -25,6 +28,8 @@ function MyList() {
 
     const handleSubmit = async e => {
       e.preventDefault();
+
+      //UUIDV4 RETURNS A UNIQUE ID WHICH IS USED TO INDENTIFY A TODO ITEM
       let x = { _id: uuidv4(), _text: input , isComplete: false};
       let updatedList = list;
       if(list === null) {
@@ -34,17 +39,23 @@ function MyList() {
       else {
         updatedList = updatedList.concat(x)
       }
+
+      //STORE THE UPDATED LIST 
       const {data} = await mySky.setJSON(dataDomain + "/" + dataKey, updatedList );
       setList(data);
+
+      //SET INPUT TO EMPTY IF LIST IS UPDATED
       setInput('');
     }
 
+    //FUNCTION TO HANDLE USER LOGOUT
     const handleMySkyLogout = async () => {
       await mySky.logout();
       setList([]);
       window.location.href = '/#/';
     };
 
+    //FUNCTION TO REMOVE A TODO LIST ITEM USING ITS _ID
     const removeTodo = async id => {
       const removedArr = list.filter(item => item._id !== id);
       const {data} = await mySky.setJSON(dataDomain + "/" + dataKey, removedArr );

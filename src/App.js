@@ -7,6 +7,7 @@ function App() {
   
   return (
     <div >
+      {/* ADDING HASHROUTER FOR PATHS TO LOGINPAGE AND MYLIST */}
       <HashRouter>
         <Route path="/" exact component={Login} />
         <Route path="/mylist/" exact component={MyList} />
